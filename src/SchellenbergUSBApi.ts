@@ -91,6 +91,7 @@ export class SchellenbergUSBApi {
 
         this.serialPort.write(command + '\n', (error) => {
             if (error) {
+                this.log.warn(`Failed to write command: ${error}`)
                 this.retryOrFailActiveCommand(error)
                 return
             }
