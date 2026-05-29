@@ -35,7 +35,7 @@ export class SchellenbergUSBApi {
         this.activeCommand = null
         this.serialPort = new SerialPort({
             path: devicePath,
-            baudRate: 9600
+            baudRate: 115200
         })
         this.serialPort.write('helo')
         this.parser = this.serialPort.pipe(new ReadlineParser({ delimiter: '\r\n' }))
