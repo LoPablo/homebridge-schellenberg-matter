@@ -39,8 +39,11 @@ export class SchellenbergUSBApi {
         })
         this.serialPort.write('helo')
         this.parser = this.serialPort.pipe(new ReadlineParser({ delimiter: '\r\n' }))
-        this.parser.on('data', (data) => {
+        this.serialPort.on('data', (data) => {
             this.log.info('Received data', data)
+        })
+        this.parser.on('data', (data) => {
+
             this.handleData(data)
         })
     }
