@@ -38,7 +38,7 @@ export class SchellenbergUSBApi {
             baudRate: 115200
         })
         this.serialPort.write('helo')
-        this.parser = this.serialPort.pipe(new ReadlineParser({ delimiter: '\n' }))
+        this.parser = this.serialPort.pipe(new ReadlineParser({ delimiter: '\r\n' }))
         this.parser.on('data', (data) => {
 
             this.handleData(data)
