@@ -124,7 +124,7 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
             this.logInfo('Setting Interval')
             this.shutterDriver = setInterval(()=>{
 
-              if (this.currentPosition == this.targetPosition) {
+              if (this.currentPosition <= this.targetPosition) {
                 this.logInfo('Endpoint reached')
                 if (this.targetPosition != 0) {
                   this.sApi.sendCommand(this.config.id, SchellenbergUSBCommands.STOP)
@@ -157,7 +157,7 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
             this.logInfo('Setting Interval')
             this.shutterDriver = setInterval(()=>{
 
-              if (this.currentPosition == this.targetPosition) {
+              if (this.currentPosition >= this.targetPosition) {
                 this.logInfo('Endpoint reached')
                 if (this.targetPosition != 100) {
                   this.sApi.sendCommand(this.config.id, SchellenbergUSBCommands.STOP)
