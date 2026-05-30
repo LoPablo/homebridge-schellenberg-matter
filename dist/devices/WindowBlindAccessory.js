@@ -101,9 +101,7 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
                 this.logInfo('Setting Interval');
                 this.shutterDriver = setInterval(() => {
                     if (this.currentPosition == this.targetPosition) {
-                        if (this.shutterDriver != null) {
-                            clearInterval(this.shutterDriver);
-                        }
+                        this.logInfo('Endpoint reached');
                         if (this.targetPosition != 0) {
                             this.sApi.sendCommand(this.config.id, SchellenbergUSBCommands.STOP)
                                 .then(() => {
@@ -112,6 +110,10 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
                                 .catch(() => {
                                 //TODO
                             });
+                        }
+                        if (this.shutterDriver != null) {
+                            this.logInfo('Clearing Interval');
+                            clearInterval(this.shutterDriver);
                         }
                     }
                     this.currentPosition -= 1;
@@ -129,9 +131,7 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
                 this.logInfo('Setting Interval');
                 this.shutterDriver = setInterval(() => {
                     if (this.currentPosition == this.targetPosition) {
-                        if (this.shutterDriver != null) {
-                            clearInterval(this.shutterDriver);
-                        }
+                        this.logInfo('Endpoint reached');
                         if (this.targetPosition != 100) {
                             this.sApi.sendCommand(this.config.id, SchellenbergUSBCommands.STOP)
                                 .then(() => {
@@ -140,6 +140,10 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
                                 .catch(() => {
                                 //TODO
                             });
+                        }
+                        if (this.shutterDriver != null) {
+                            this.logInfo('Clearing Interval');
+                            clearInterval(this.shutterDriver);
                         }
                     }
                     this.currentPosition += 1;

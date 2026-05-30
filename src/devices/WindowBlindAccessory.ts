@@ -125,9 +125,7 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
             this.shutterDriver = setInterval(()=>{
 
               if (this.currentPosition == this.targetPosition) {
-                if (this.shutterDriver != null){
-                  clearInterval(this.shutterDriver);
-                }
+                this.logInfo('Endpoint reached')
                 if (this.targetPosition != 0) {
                   this.sApi.sendCommand(this.config.id, SchellenbergUSBCommands.STOP)
                       .then(()=>{
@@ -137,6 +135,11 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
                         //TODO
                       })
                 }
+                if (this.shutterDriver != null){
+                  this.logInfo('Clearing Interval')
+                  clearInterval(this.shutterDriver);
+                }
+
 
               }
               this.currentPosition -= 1
@@ -153,10 +156,9 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
           .then(result => {
             this.logInfo('Setting Interval')
             this.shutterDriver = setInterval(()=>{
+
               if (this.currentPosition == this.targetPosition) {
-                if (this.shutterDriver != null){
-                  clearInterval(this.shutterDriver);
-                }
+                this.logInfo('Endpoint reached')
                 if (this.targetPosition != 100) {
                   this.sApi.sendCommand(this.config.id, SchellenbergUSBCommands.STOP)
                       .then(()=>{
@@ -166,6 +168,11 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
                         //TODO
                       })
                 }
+                if (this.shutterDriver != null){
+                  this.logInfo('Clearing Interval')
+                  clearInterval(this.shutterDriver);
+                }
+
               }
               this.currentPosition += 1
               this.logInfo(`lift position: ${this.currentPosition}% `)
