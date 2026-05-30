@@ -19,10 +19,10 @@ export class SchellenbergUSBApi {
         this.activeCommand = null;
         this.serialPort = new SerialPort({
             path: devicePath,
-            baudRate: 9600
+            baudRate: 115200
         });
         this.serialPort.write('helo');
-        this.parser = this.serialPort.pipe(new ReadlineParser({ delimiter: '\n' }));
+        this.parser = this.serialPort.pipe(new ReadlineParser({ delimiter: '\r\n' }));
         this.parser.on('data', (data) => {
             this.handleData(data);
         });
@@ -63,6 +63,7 @@ export class SchellenbergUSBApi {
         }, this.timeoutMs);
         this.serialPort.write(command + '\n', (error) => {
             if (error) {
+                this.log.warn(`Failed to write command: ${error}`);
                 this.retryOrFailActiveCommand(error);
                 return;
             }
@@ -103,6 +104,8 @@ export class SchellenbergUSBApi {
             this.log.warn(data);
             return;
         }
+        data = data.trim();
+        this.log.info(`Raw data chars: ${[...data].map(c => c.charCodeAt(0)).join(', ')}`);
         switch (data) {
             case 'tE':
                 this.log.warn('Stick returned error tE');

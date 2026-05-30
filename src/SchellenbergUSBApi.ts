@@ -147,7 +147,11 @@ export class SchellenbergUSBApi {
             this.log.warn(data)
             return
         }
+        data = data.trim()
 
+        this.log.info(
+            `Raw data chars: ${[...data].map(c => c.charCodeAt(0)).join(', ')}`
+        )
         switch (data) {
             case 'tE':
                 this.log.warn('Stick returned error tE')
