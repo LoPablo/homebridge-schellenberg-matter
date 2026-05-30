@@ -81,15 +81,13 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
         await this.shutterInterval();
     }
     async updateLiftPosition(percent) {
-        // Convert open percentage to Matter's closed percentage (0=open, 10000=closed)
         await this.updateState(this.matter.clusterNames.WindowCovering, {
             currentPositionLiftPercent100ths: Math.round(percent * 100),
         });
-        this.logInfo(`lift position: ${percent}% `);
     }
     async shutterInterval() {
-        this.log.info('curren position is:', this.currentPosition);
-        this.log.info('targetPosition is:', this.targetPosition);
+        this.logInfo('curren position is:', this.currentPosition);
+        this.logInfo('targetPosition is:', this.targetPosition);
         if (this.shutterDriver != null) {
             clearInterval(this.shutterDriver);
         }
@@ -97,9 +95,10 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
             targetPositionLiftPercent100ths: Math.round(this.targetPosition * 100),
         });
         if (this.currentPosition < this.targetPosition || this.targetPosition == 0) {
-            this.log.info('Will go up');
-            this.sApi.sendCommand(this.config.id, SchellenbergUSBCommands.UP)
+            this.logInfo('Will go down');
+            this.sApi.sendCommand(this.config.id, SchellenbergUSBCommands.DOWN)
                 .then(result => {
+                this.logInfo('Setting Interval');
                 this.shutterDriver = setInterval(() => {
                     if (this.currentPosition == this.targetPosition) {
                         if (this.shutterDriver != null) {
@@ -115,6 +114,7 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
                             });
                         }
                         this.currentPosition -= 1;
+                        this.logInfo(`lift position: ${this.currentPosition}% `);
                         this.updateLiftPosition(this.currentPosition);
                     }
                 }, this.shutterStepTime);
@@ -123,9 +123,10 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
             });
         }
         else if (this.currentPosition > this.targetPosition || this.targetPosition == 100) {
-            this.log.info('Will go down');
-            this.sApi.sendCommand(this.config.id, SchellenbergUSBCommands.DOWN)
+            this.logInfo('Will go up');
+            this.sApi.sendCommand(this.config.id, SchellenbergUSBCommands.UP)
                 .then(result => {
+                this.logInfo('Setting Interval');
                 this.shutterDriver = setInterval(() => {
                     if (this.currentPosition == this.targetPosition) {
                         if (this.shutterDriver != null) {
