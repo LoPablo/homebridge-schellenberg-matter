@@ -5,7 +5,7 @@ import type { API, Logger, MatterRequests } from 'homebridge'
 import { getMatter } from '../utils.js'
 import {BaseMatterAccessory} from "./BaseMatterAccessory.js";
 import {SchellenbergUSBApi, SchellenbergUSBCommands} from "../SchellenbergUSBApi.js";
-import {clearInterval, setInterval} from "node:timers";
+
 
 export class WindowBlindAccessory extends BaseMatterAccessory {
 
@@ -14,7 +14,7 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
   private currentPosition : number
   private targetPosition : number
   private shutterStepTime : number
-  private shutterDriver : NodeJS.Timeout | null
+  private shutterDriver : ReturnType<typeof setInterval> | null = null
 
   constructor(api: API, log: Logger, config : any, schellenbergAPI : SchellenbergUSBApi) {
     const serialNumber = config.id
@@ -113,6 +113,7 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
     this.logInfo('targetPosition is:', this.targetPosition)
     if (this.shutterDriver != null){
       clearInterval(this.shutterDriver);
+      this.shutterDriver = null
     }
     await this.updateState(this.matter.clusterNames.WindowCovering, {
       targetPositionLiftPercent100ths: Math.round(this.targetPosition*100),
@@ -138,6 +139,7 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
                 if (this.shutterDriver != null){
                   this.logInfo('Clearing Interval')
                   clearInterval(this.shutterDriver);
+                  this.shutterDriver = null
                 }
 
 

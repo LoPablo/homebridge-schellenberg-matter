@@ -1,14 +1,13 @@
 import { getMatter } from '../utils.js';
 import { BaseMatterAccessory } from "./BaseMatterAccessory.js";
 import { SchellenbergUSBCommands } from "../SchellenbergUSBApi.js";
-import { clearInterval, setInterval } from "node:timers";
 export class WindowBlindAccessory extends BaseMatterAccessory {
     sApi;
     config;
     currentPosition;
     targetPosition;
     shutterStepTime;
-    shutterDriver;
+    shutterDriver = null;
     constructor(api, log, config, schellenbergAPI) {
         const serialNumber = config.id;
         const matter = getMatter(api);
@@ -90,6 +89,7 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
         this.logInfo('targetPosition is:', this.targetPosition);
         if (this.shutterDriver != null) {
             clearInterval(this.shutterDriver);
+            this.shutterDriver = null;
         }
         await this.updateState(this.matter.clusterNames.WindowCovering, {
             targetPositionLiftPercent100ths: Math.round(this.targetPosition * 100),
@@ -114,6 +114,7 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
                         if (this.shutterDriver != null) {
                             this.logInfo('Clearing Interval');
                             clearInterval(this.shutterDriver);
+                            this.shutterDriver = null;
                         }
                     }
                     this.currentPosition -= 1;
