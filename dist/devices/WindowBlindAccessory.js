@@ -113,10 +113,10 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
                                 //TODO
                             });
                         }
-                        this.currentPosition -= 1;
-                        this.logInfo(`lift position: ${this.currentPosition}% `);
-                        this.updateLiftPosition(this.currentPosition);
                     }
+                    this.currentPosition -= 1;
+                    this.logInfo(`lift position: ${this.currentPosition}% `);
+                    this.updateLiftPosition(this.currentPosition);
                 }, this.shutterStepTime);
             })
                 .catch(error => {
@@ -141,9 +141,10 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
                                 //TODO
                             });
                         }
-                        this.currentPosition += 1;
-                        this.updateLiftPosition(this.currentPosition);
                     }
+                    this.currentPosition += 1;
+                    this.logInfo(`lift position: ${this.currentPosition}% `);
+                    this.updateLiftPosition(this.currentPosition);
                 }, this.shutterStepTime);
             })
                 .catch(error => {

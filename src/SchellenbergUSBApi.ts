@@ -27,7 +27,7 @@ export class SchellenbergUSBApi {
     private log : Logger;
 
     private readonly maxRetries = 3
-    private readonly timeoutMs = 3000
+    private readonly timeoutMs = 4000
 
     constructor(devicePath: string, log: Logger) {
         this.commandQueue = []

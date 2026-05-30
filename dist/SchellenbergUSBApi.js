@@ -12,7 +12,7 @@ export class SchellenbergUSBApi {
     parser;
     log;
     maxRetries = 3;
-    timeoutMs = 3000;
+    timeoutMs = 4000;
     constructor(devicePath, log) {
         this.commandQueue = [];
         this.log = log;

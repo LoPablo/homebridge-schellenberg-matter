@@ -123,6 +123,7 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
           .then(result => {
             this.logInfo('Setting Interval')
             this.shutterDriver = setInterval(()=>{
+
               if (this.currentPosition == this.targetPosition) {
                 if (this.shutterDriver != null){
                   clearInterval(this.shutterDriver);
@@ -136,10 +137,11 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
                         //TODO
                       })
                 }
-                this.currentPosition -= 1
-                this.logInfo(`lift position: ${this.currentPosition}% `)
-                this.updateLiftPosition(this.currentPosition)
+
               }
+              this.currentPosition -= 1
+              this.logInfo(`lift position: ${this.currentPosition}% `)
+              this.updateLiftPosition(this.currentPosition)
             }, this.shutterStepTime)
           })
           .catch(error => {
@@ -164,9 +166,10 @@ export class WindowBlindAccessory extends BaseMatterAccessory {
                         //TODO
                       })
                 }
-                this.currentPosition += 1
-                this.updateLiftPosition(this.currentPosition)
               }
+              this.currentPosition += 1
+              this.logInfo(`lift position: ${this.currentPosition}% `)
+              this.updateLiftPosition(this.currentPosition)
             }, this.shutterStepTime)
           })
           .catch(error => {
